@@ -1,2 +1,9 @@
 *.class
 *.log
+.bash_history
+.devcontainer/nix.tar.gz
+.gitconfig
+.nix-defexpr/
+.ssh/
+.vscode-server/
+

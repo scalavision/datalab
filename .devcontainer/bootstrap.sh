@@ -1,15 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
-VERSION=${1:-2.3.15}
+set -eu
+
+VERSION=${1:-2.3.11}
 BASEURL=https://releases.nixos.org/nix
 SYSTEM=x86_64-linux
 BASENAME=nix-$VERSION
 ARCHNAME=$BASENAME-$SYSTEM
 FILENAME=$ARCHNAME.tar.xz
 
+DEBIAN_FRONTEND=noninteractive apt-get -qq -o=Dpkg::Use-Pty=0 update && \
+  apt-get -qq -o=Dpkg::Use-Pty=0 install -y --no-install-recommends \
+  apt-utils \
+  ca-certificates \
+  wget \
+  xz-utils &> /dev/null
+
 wget -q $BASEURL/$BASENAME/$FILENAME
 
-tar xf $FILENAME
+DEBIAN_FRONTEND=noninteractive tar xf $FILENAME
 
 # Prepare build directory
 mkdir -p build/etc/nix build/nix/var/nix/profiles \
@@ -62,4 +71,4 @@ chmod 0777 build/tmp
 chmod -R 0700 build/root
 
 # Create tarball
-tar cz . -C build
+cd ./build && tar cz .

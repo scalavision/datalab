@@ -1,28 +1,35 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/ubuntu/.devcontainer/base.Dockerfile
 
 # [Choice] Ubuntu version: hirsute, bionic, focal
-ARG VARIANT="hirsute"
-FROM scratch
-
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-focal
+# FROM ubuntu:bionic-20200219
+# FROM scratch
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
 ADD nix.tar.gz /
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
+# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && \
+#  apt-get -y install --no-install-recommends vim
+
+# RUN cat /etc/passwd
+# RUN cat /etc/group
+
+# RUN adduser --force-badname --system --gid 1000 --no-create-home _apt
+# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
 # && apt-get -y install --no-install-recommends
 
-ENV HOME="/dev" TERM="xterm" \
+ENV HOME="/yoda" TERM="xterm" \
   PATH="/usr/local/bin:/usr/bin:/bin" \
   SSL_CERT_FILE="/usr/local/etc/ssl/certs/ca-bundle.crt" \
   SYSTEM_CERTIFICATE_PATH="/usr/local/etc/ssl/certs/ca-bundle.crt" \
-  NIX_PATH="nixpkgs=/dev/.nix-defexpr/channels/nixpkgs"
+  NIX_PATH="nixpkgs=/yoda/.nix-defexpr/channels/nixpkgs" \
+  LANGUAGE=C.UTF-8 \
+  LANG=C.UTF-8 \
+  LC_ALL=C.UTF-8
 
-WORKDIR /opt/extras
-ADD install-tools.sh /opt/extras
-ADD packages.txt /opt/extras
-ADD tools /opt/extras/
+RUN chown 0:0 -R /bin /etc /usr /var /tmp
 
 RUN /nix/store/*-nix-*/bin/nix-store --init && \
   /nix/store/*-nix-*/bin/nix-store --load-db < /nix/store/.reginfo && \
@@ -36,8 +43,11 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   ln -sf /usr/local/bin/env /usr/bin && \
   ln -sf /usr/local/bin/bash /bin && \
   ln -sf /usr/local/bin/sh /bin && \
-  ln -sf /usr/local/etc/* /etc && \
   nix-collect-garbage -d
-RUN chown 0:0 -R /bin /etc /usr /var /tmp
 
-# RUN chmod +x /opt/extras/install-tools.sh && /opt/extras/install-tools.sh && rm -rf /opt/extras
+RUN nix-env -f "/yoda/.nix-defexpr/channels/nixpkgs" -iA busybox
+
+RUN mkdir -p /yoda
+RUN adduser yoda -D -h /yoda
+USER yoda
+CMD ["/bin/bash"]
