@@ -1,0 +1,14 @@
+jdk8
+gnused
+gawk
+gnugrep
+coreutils-full
+bash
+perl
+python
+scala
+neovim
+ncurses
+ammonite
+mill
+sbt
