@@ -10,10 +10,10 @@
 		}
 	},
 	// Set *default* container specific settings.json values on container create.
-	"settings": {},
-	//	"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/base:0-focal bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
-	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i ubuntu:bionic-20200219 bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
+	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/miniconda bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	"initializeCommand": "echo starting ..",
+	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/base:0-focal bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
+	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i ubuntu:bionic-20200219 bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -24,9 +24,26 @@
 	"remoteUser": "yoda",
 	"updateRemoteUserUID": false,
 	"mounts": [
-		"source=${localWorkspaceFolder},target=/yoda,type=bind",
+		"source=${localWorkspaceFolder}/mounts/data,target=/data,type=bind",
+		"source=${localWorkspaceFolder}/mounts/config,target=/config,type=bind",
+		"source=${localWorkspaceFolder}/mounts/bio,target=/bio,type=bind",
 		// Override workspace settings, tasks and launch configs. Uncomment to keep workspace configs.
 		"source=${localWorkspaceFolder}/.devcontainer,target=/yoda/.vscode,type=bind"
 	],
-	"workspaceFolder": "/yoda"
+	"workspaceMount": "source=${localWorkspaceFolder}/mounts/src,target=/src,type=bind,consistency=cached",
+	"workspaceFolder": "/src",
+	"settings": {
+		"files.exclude": {
+			"**/*.keep": true,
+			"target/": true,
+			"project/target": true,
+			"project/project": true,
+			"node_modules": true,
+			"**/*.pyc": {
+				"when": "$(basename).py"
+			},
+			"**/__pycache__": true,
+		}
+	},
+	//"postStartCommand": "nix-shell"
 }

@@ -22,10 +22,11 @@ DEBIAN_FRONTEND=noninteractive tar xf $FILENAME
 
 # Prepare build directory
 mkdir -p build/etc/nix build/nix/var/nix/profiles \
-         build/tmp build/bin build/usr/bin build/var build/root
+         build/tmp build/bin build/usr/bin build/var build/root build/yoda
 
 cat > build/etc/passwd << EOF
 root:*:0:0:::
+yoda:*:1000:1000:::
 nixbld1:*:30001:30000:::
 nixbld2:*:30002:30000:::
 nixbld3:*:30003:30000:::
@@ -40,11 +41,13 @@ EOF
 
 cat > build/etc/group<< EOF
 nixbld:x:30000:nixbld1,nixbld2,nixbld3,nixbld4,nixbld5,nixbld6,nixbld7,nixbld8,nixbld9,nixbld10
+yoda:x:1000:yoda
 EOF
 
 # Symlink the default profile to /usr/local
 ln -s /nix/var/nix/profiles/default build/usr/local
 ln -s /nix/var/nix/profiles/default build/root/.nix-profile
+ln -s /nix/var/nix/profiles/default build/yoda/.nix-profile
 
 # Move Nix store into build directory
 mv $ARCHNAME/store build/nix
@@ -57,10 +60,13 @@ ln -s "$BASH"/bin/sh build/bin
 
 # Symlink channel to be
 mkdir -p build/var/nixpkgs build/root/.nix-defexpr
+mkdir -p build/var/nixpkgs build/yoda/.nix-defexpr
 
 # Configure nixpkgs
 mkdir -p build/root/.nixpkgs
+mkdir -p build/yoda/.nixpkgs
 echo "{ allowBroken = true; }" > build/root/.nixpkgs/config.nix
+echo "{ allowBroken = true; }" > build/yoda/.nixpkgs/config.nix
 
 # Fix permissions
 find build -type d -print0 |xargs -0 chmod 0555
@@ -69,6 +75,7 @@ find build/nix/var -type d -print0 |xargs -0 chmod 0755
 chmod 0755 build/nix/store
 chmod 0777 build/tmp
 chmod -R 0700 build/root
+chmod -R 0700 build/yoda
 
 # Create tarball
 cd ./build && tar cz .

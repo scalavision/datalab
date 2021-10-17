@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "**/*.keep": true,
+    "target/": true,
+    "project/target": true,
+    "project/project": true,
+    "node_modules": true,
+    "**/*.pyc": {
+      "when": "$(basename).py"
+    },
+    "**/__pycache__": true,
+  }
+}
