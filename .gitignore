@@ -6,4 +6,4 @@
 .nix-defexpr/
 .ssh/
 .vscode-server/
-
+mounts/src/.singularity

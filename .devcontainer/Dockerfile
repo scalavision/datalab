@@ -24,6 +24,9 @@ ENV HOME="/yoda" TERM="xterm" \
 RUN mkdir -p /src /config /data /tools /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
 RUN touch /opt/conda/pkgs/urls.txt
 RUN chown 1000:1000 /opt/conda/pkgs/urls.txt
+# You should be able to run singularity with sudo
+# also the container must be running in privileged mode for this to work
+RUN echo "yoda ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/sudoers
 
 USER yoda
 
@@ -44,7 +47,4 @@ RUN nix-env -iA nixpkgs.busybox nixpkgs.singularity
 # https://github.com/docker/for-linux/issues/388
 # RUN chown 0:0 -R /bin /etc /usr /var /tmp
 
-# You should be able to run singularity with sudo
-# also the container must be running in privileged mode for this to work
-RUN echo "yoda ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/sudoers
 

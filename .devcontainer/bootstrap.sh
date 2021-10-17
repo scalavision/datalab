@@ -71,7 +71,6 @@ find build/nix/var -type d -print0 |xargs -0 chmod 0755
 chmod 0755 build/nix/store
 chmod 0777 build/tmp
 chmod -R 0700 build/yoda
-chown -R 1000:1000 /opt/conda*
 chown -R 1000:1000 /build/*
 
 # Create tarball
