@@ -21,6 +21,12 @@ ENV HOME="/yoda" TERM="xterm" \
   LANG=C.UTF-8 \
   LC_ALL=C.UTF-8
 
+RUN mkdir -p /src /config /data /tools /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
+RUN touch /opt/conda/pkgs/urls.txt
+RUN chown 1000:1000 /opt/conda/pkgs/urls.txt
+
+USER yoda
+
 RUN /nix/store/*-nix-*/bin/nix-store --init && \
   /nix/store/*-nix-*/bin/nix-store --load-db < /nix/store/.reginfo && \
   /nix/store/*-nix-*/bin/nix-env -i \
@@ -29,50 +35,16 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   /nix/store/*-xz-* /nix/store/*-gzip-* /nix/store/*-bzip2-* && \
   nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs && \
   nix-channel --update && \
-  nix-env -i bash-interactive iana-etc which && \
-  ln -sf /usr/local/bin/env /usr/bin && \
-  ln -sf /usr/local/bin/bash /bin && \
-  ln -sf /usr/local/bin/sh /bin && \
   nix-collect-garbage -d
 
-# RUN chown -R 1000:1000 /opt/conda*
-
-RUN mkdir -p /root /yoda
-# RUN nix-env -f "/root/.nix-defexpr/channels/nixpkgs" -iA busybox singularity
-RUN cat /etc/passwd
-
-RUN mkdir -p /src /config /data /tools /conda /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
-RUN ln -sf /config /src/config && \
-  ln -sf /data /src/config && \
-  ln -sf /tools /src/tools && \
-  ln -sf /bio /src/bio && \
-  ln -sf /nixpkgs /src/nixpkgs
-
-RUN sudo chown -R 1000:1000 /yoda
-RUN chmod 1777 /nix/var/nix/profiles/per-user
-RUN mkdir -p /nix/var/nix/daemon-socket
-# RUN chown 1000:1000 /nix/var/nix/daemon-socket
-run chgrp 1000 /nix/var/nix/daemon-socket
-RUN chmod ug=rwx,o= /nix/var/nix/daemon-socket
-RUN ls -halt /
+RUN nix-env -iA nixpkgs.busybox nixpkgs.singularity
 
 # There is a bug in Docker that makes recursive ownership of folders extremely slow in some cases
 # Give this issue a thumbs up
 # https://github.com/docker/for-linux/issues/388
 # RUN chown 0:0 -R /bin /etc /usr /var /tmp
-# RUN addgroup nix-users
-# -G nix-users 
-# RUN adduser --disabled-password -D -s /bin/bash -h /yoda --gecos '' yoda
-# RUN apt-get install -y sudo
-# RUN adduser yoda sudo
 
-# RUN echo "yoda ALL=(ALL) SETENV:HOME=/root, NOPASSWD:/usr/local/bin/nix-env" >> /etc/sudoers
-# RUN adduser docker sudo
-# RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-# RUN nix-daemon &
-# RUN mkdir -m 0755 -p /nix/var/nix/{profiles,gcroots}/per-user/yoda
-# RUN chmod -R 775 /nix/var/nix/profiles/per-user
-USER yoda
-
-# RUN sudo nix-env -iA nixpkgs.vim
+# You should be able to run singularity with sudo
+# also the container must be running in privileged mode for this to work
+RUN echo "yoda ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/sudoers
 

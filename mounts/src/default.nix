@@ -1,3 +1,5 @@
+# An example of a more advanced shell
+# with real science support
 let
   pkgs = import <nixpkgs> {}; # standard
   # bring in yellowbrick from pypi, building it with a recursive list
@@ -43,10 +45,14 @@ stdenv.mkDerivation rec { # new boilerplate
       python37Packages.scipy
       python37Packages.matplotlib
       yellowbrick
-
-      python37Packages.tensorflowWithCuda
+      python37Packages.tensorflow
+      python37Packages.pytorch
       python37Packages.Keras
-      python37Packages.pytorchWithCuda
+      # Cuda requires non-free licensing,
+      # uncomment and follow the instructions
+      # if you want Cuda support.
+      # python37Packages.tensorflowWithCuda
+      # python37Packages.pytorchWithCuda
 
       R
       rPackages.mlr
