@@ -10,8 +10,8 @@
 		}
 	},
 	// Set *default* container specific settings.json values on container create.
-	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/miniconda bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
-        "initializeCommand": "echo starting ..",
+	initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/miniconda bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
+       // "initializeCommand": "echo starting ..",
 	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/base:0-focal bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i ubuntu:bionic-20200219 bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	// Add the IDs of extensions you want installed when the container is created.

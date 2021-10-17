@@ -6,6 +6,43 @@ Emphasis on data science, machine learning and bioinformatics.
 
 ## Basic ideas
 
+To try it out:
+
+```s
+CTRL + SHIFT + P
+Remote Containers: Rebuild and Reopen in Containers
+```
+
+You will get a `/bin/sh` prompt, you can test out a simple
+`nix-shell` that will include a lot of data science tools:
+
+```bash
+nix-shell
+python
+```
+
+Type in:
+
+```python
+>>> import numpy as np
+>>> a = np.arange(15).reshape(3,5)
+>>> a
+array([[ 0,  1,  2,  3,  4],
+       [ 5,  6,  7,  8,  9],
+       [10, 11, 12, 13, 14]])
+>>>
+```
+
+There is a `wip` in progress `nix-shell` environment for more optimized
+`tensorflow` library.
+
+To add `ensembl-vep` a very much used bioinformatics library, using
+conda:
+
+```bash
+conda config --add channels bioconda
+```
+
 ### nixpgks and conda
 
 `nixpkgs` ([NixOs](https://nixos.org/)) has a plethora of scientific libraries
@@ -41,6 +78,10 @@ container.
 This feature has not yet been implemented, but has been tested out and
 works.
 
+### TODO
+
+
+
 ## credits
 
 `bootstrap.sh` is heavily borrowed from `datakurre`'s `gist`, and is
@@ -49,3 +90,6 @@ docker environment for standalone / single-user `nix`:
 
 * [nix in docker, best of both worlds](https://datakurre.pandala.org/2015/11/nix-in-docker-best-of-both-worlds.html/)
 
+`nix-shell` dev environment is heavily borrowed from:
+
+* [Building a reprodusible data science environment with Nix](https://josephsdavid.github.io/nix.html)
