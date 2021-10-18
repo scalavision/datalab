@@ -1,6 +1,6 @@
 # datalab
 
-* WIP: Ideas on how to build a data engineering platform based upon nixpkgs and conda support
+* WIP: Ideas on how to build a data engineering platform using nixpkgs and conda.
 
 Emphasis on data science, machine learning and bioinformatics.
 
@@ -8,26 +8,33 @@ Emphasis on data science, machine learning and bioinformatics.
 
 To try it out:
 
+1. create a `nix` docker volume
+
+```bash
+docker volume create nix
+```
+
+This will contain all the binaries installed using `nixpkgs` in
+the contaier. It is persisted, no matter how many times you rebuild
+the `devontainer`. This saves significant developer time, and when you
+understand more how `nixpkgs` works, you will understand why you
+never need to rebuild this.
+
+Then to build the container:
+
 ```s
 CTRL + SHIFT + P
 Remote Containers: Rebuild and Reopen in Containers
 ```
 
 There is a `initializeCommand` in `.devcontainer/devcontainer.json`, that creates a
-docker container content, archived down to `nix.tar.gz`. This contains the
-complete `nix` environment for the `yoda` user. This environment is
-then extracted into the docker container.
+docker container content, archived as `nix.tar.gz` using the `init.sh` script.
 
-When you have built the container for the first time, you don't have to
-create that archive anymore. You can there switch the commented code
-here:
+This contains the complete `nix` environment for the `yoda` user. This environment is
+then extracted into the docker container directly.
 
-```json
-// comment out this
-"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/miniconda bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
-// uncomment
-// "initializeCommand": "echo starting ..",
-```
+If rebuilding the container, this archive will not be rebuilt, unless you delete it.
+The same goes for the `docker volume`.
 
 ### Try it out
 
@@ -80,7 +87,7 @@ array([[ 0,  1,  2,  3,  4],
 There is a `wip` in progress `nix-shell` environment for more optimized
 `tensorflow` library.
 
-#### conda and install bioinformatic packages
+#### conda and installation of bioinformatic packages
 
 To add `ensembl-vep` a very much used bioinformatics library, using
 conda:
@@ -94,11 +101,11 @@ conda config --add channels bioconda
 `nixpkgs` ([NixOs](https://nixos.org/)) has a plethora of scientific libraries
 available. It distinguishes itself from `conda` by:
 
-* package installations are reprodusible
+* package installations are reprodusible until the end of time (unless things get removed from Internet)
 * every package is installed in isolation, thus library conflicts between
   versions of a package or library dependencies are never a problem.
-* You can install packages from any channel versio of nixpkgs
-* most of the times the resolution and installation is much faster.
+* You can install packages from any channel version of nixpkgs
+* most of the times the resolution and installation is much faster than for conda.
 
 `conda` however still has more science packages available, so therefor this `devcontainer`
 is based upon `vscode`'s `miniconda` container as well.
@@ -106,7 +113,7 @@ is based upon `vscode`'s `miniconda` container as well.
 `nixpkgs` is one of the biggest linux package repositories out there though (it also
 supports OSX / mac)
 
-### /nix/store contained in a docker volume [TODO]
+### /nix/store contained in a docker volume
 
 Whenever you rebuild your container, it should be superfast. You can utilize
 docker caching / registry etc. for that, but in the end the cache will be invalidated
@@ -124,12 +131,8 @@ docker container.
 You could even maintain your docker container's packages from a secondary
 container.
 
-This feature has not yet been implemented, but has been tested out and
-it works.
-
 ### TODO
 
-* add docker volume support for `/nix/store`
 * add all `nix-channels` available to support older versions of
   packages.
 
