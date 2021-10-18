@@ -38,7 +38,8 @@ The same goes for the `docker volume`.
 
 ### Try it out
 
-When the container is finished working, you will get a `/bin/sh` prompt,
+When the docker image is finished building, and container has started,
+you will get a `/bin/sh` prompt,
 alternatively, you can click on the `+` sign at the `terminal`
 
 (CTLR + `\``) and select `^` drop down menu, then bash a terminal.
