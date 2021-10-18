@@ -2,7 +2,10 @@
 
 * WIP: Ideas on how to build a data engineering platform using nixpkgs and conda.
 
-Emphasis on data science, machine learning and bioinformatics.
+Emphasis on data science, machine learning and bioinformatics. This is very rough
+around the edges. It should be possible to open the `devcontainer` inside vscode
+and it should build. Be aware that there is a lot of improvements before it is
+usable.
 
 ## Basic ideas
 
@@ -42,7 +45,7 @@ When the docker image is finished building, and container has started,
 you will get a `/bin/sh` prompt,
 alternatively, you can click on the `+` sign at the `terminal`
 
-(CTLR + \`) and select ^ drop down menu, then bash a terminal.
+(CTLR + \`) and select ^ drop down menu, then you will get a bash terminal.
 
 #### basic nix operations
 
