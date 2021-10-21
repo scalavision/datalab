@@ -17,7 +17,24 @@
 	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i mcr.microsoft.com/vscode/devcontainers/base:0-focal bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	//"initializeCommand": "rm -rf ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && cat ${localWorkspaceFolder}/.devcontainer/bootstrap.sh | docker run -v $(pwd):/out -e TERM=xterm --rm -i ubuntu:bionic-20200219 bash > ${localWorkspaceFolder}/.devcontainer/nix.tar.gz && sleep 1",
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	"extensions": [
+		"bbenoist.Nix",
+		"arrterian.nix-env-selector",
+		"brettm12345.nixfmt-vscode",
+		"esbenp.prettier-vscode",
+		"ms-toolsai.jupyter-keymap",
+		"dbaeumer.vscode-eslint",
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-pg",
+		"yzhang.markdown-all-in-one",
+		"nextflow.nextflow",
+		"broadinstitute.wdl",
+		"broadinstitute.wdl-devtools",
+		"scalameta.metals",
+		"connovalkering.vscode-singularity"
+	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
@@ -25,14 +42,17 @@
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "yoda",
 	"updateRemoteUserUID": false,
+	"terminal.integrated.defaultProfile.linux": "bash",
 	"mounts": [
 		"source=nix,target=/nix,type=volume",
 		"source=${localWorkspaceFolder}/mounts/data,target=/src/data,type=bind",
 		"source=${localWorkspaceFolder}/mounts/config,target=/src/config,type=bind",
 		"source=${localWorkspaceFolder}/mounts/bio,target=/src/bio,type=bind",
+		"source=${localWorkspaceFolder}/mounts/analytics,target=/src/analytics,type=bind",
 		// Override workspace settings, tasks and launch configs. Uncomment to keep workspace configs.
-		"source=${localWorkspaceFolder}/.devcontainer,target=/yoda/.vscode,type=bind"
+		"source=${localWorkspaceFolder}/.devcontainer,target=/src/.vscode,type=bind"
 	],
+	"runArgs": [ "--platform", "linux/amd64" ],
 	"workspaceMount": "source=${localWorkspaceFolder}/mounts/src,target=/src,type=bind,consistency=cached",
 	"workspaceFolder": "/src",
 	"settings": {

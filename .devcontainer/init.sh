@@ -4,6 +4,9 @@ set -euo pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Attempt to support also Apple M1 architecture
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 if [ -f "$DIR"/nix.tar.gz ]; then
  echo "nix.tar.gz exists, remove it if you want to build from scratch"
 else
