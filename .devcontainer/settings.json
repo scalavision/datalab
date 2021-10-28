@@ -8,6 +8,9 @@
     "**/*.pyc": {
       "when": "$(basename).py"
     },
-    "**/__pycache__": true,
+    "**/__pycache__": true
+  },
+  "files.watcherExclude": {
+    "**/target": true
   }
 }
