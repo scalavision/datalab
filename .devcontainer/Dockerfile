@@ -28,6 +28,9 @@ RUN chown 1000:1000 /opt/conda/pkgs/urls.txt
 # also the container must be running in privileged mode for this to work
 RUN echo "yoda ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/sudoers
 
+RUN mkdir /.cache
+RUN chown -R 1000:1000 /.cache
+
 USER yoda
 
 RUN /nix/store/*-nix-*/bin/nix-store --init && \
