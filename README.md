@@ -1,4 +1,6 @@
-# datalab [CONDA + NIX = Data Science and Engineering Platform]
+# datalab 
+
+## CONDA + NIX = Data Science and Engineering Platform
 
 * WIP: Under heavy development and unstable
 
