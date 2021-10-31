@@ -6,4 +6,10 @@
 .nix-defexpr/
 .ssh/
 .vscode-server/
+.sbt
+.bloop
+.bsp
 mounts/src/.singularity
+mounts/src/project/project
+target/
+

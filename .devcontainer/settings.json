@@ -2,6 +2,10 @@
   "files.exclude": {
     "**/*.keep": true,
     "target/": true,
+    "**/.bsp": true,
+    "**/.metals": true,
+    "**/.sbt": true,
+    "**/.bloop": true,
     "project/target": true,
     "project/project": true,
     "node_modules": true,
@@ -11,6 +15,10 @@
     "**/__pycache__": true
   },
   "files.watcherExclude": {
-    "**/target": true
+    "**/target": true,
+    "**/.bsp": true,
+    "**/.metals": true,
+    "**/.sbt": true,
+    "**/.bloop": true
   }
 }

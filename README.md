@@ -1,45 +1,44 @@
-# datalab
+# datalab [CONDA + NIX = Data Science and Engineering Platform]
 
-* WIP: Ideas on how to build a data engineering platform using nixpkgs and conda.
+* WIP: Under heavy development and unstable
 
-Emphasis on data science, machine learning and bioinformatics. This is very rough
-around the edges. It should be possible to open the `devcontainer` inside vscode
-and it should build. Be aware that there is a lot of improvements before it is
-usable.
+Datalab wants to create a simple environment for complex data engineering
+and datascience tasks.
 
-## Basic ideas
+## What it is
 
-To try it out:
+It contains:
 
-1. create a `nix` docker volume
+* miniconda: get easy access to the scientific universe of anaconda packages.
+* nix: reproducible builds and deployments, more reliable and faster than conda and almost
+       the same amount of scientific packages.
+* vscode decontainer: built on conda devcontainer for conda.
+* scripts to install bioinformatic tools not in conda or nix
+
+You install all nix packages inside a docker volume, it means that it contains
+all of your heavy data science tools. You can then maintain those independent of your
+docker container lifecycle.
+
+## To try it out
+
+1. Create a docker volume for `nix`:
 
 ```bash
 docker volume create nix
 ```
 
-This will contain all the binaries installed using `nixpkgs` in
-the contaier. It is persisted, no matter how many times you rebuild
-the `devontainer`. This saves significant developer time, and when you
-understand more how `nixpkgs` works, you will understand why you
-never need to rebuild this.
+2. Open it in vscode
 
-Then to build the container:
+open the folder in `vscode`, then:
 
 ```s
 CTRL + SHIFT + P
 Remote Containers: Rebuild and Reopen in Containers
 ```
 
-There is a `initializeCommand` in `.devcontainer/devcontainer.json`, that creates a
-docker container content, archived as `nix.tar.gz` using the `init.sh` script.
+Grab your favorite beverage, it will build for some time.
 
-This contains the complete `nix` environment for the `yoda` user. This environment is
-then extracted into the docker container directly.
-
-If rebuilding the container, this archive will not be rebuilt, unless you delete it.
-The same goes for the `docker volume`.
-
-### Try it out
+### Basic shell interaction
 
 When the docker image is finished building, and container has started,
 you will get a `/bin/sh` prompt,
@@ -47,36 +46,48 @@ alternatively, you can click on the `+` sign at the `terminal`
 
 (CTLR + \`) and select ^ drop down menu, then you will get a bash terminal.
 
-#### basic nix operations
+### Open a scientific shell environment
 
-Install a something from the nix package manager:
-
-```bash
-nix-env -iA nixpkgs.vim
-```
-
-Search for a package:
-
-```bash
-nix search vim
-```
-
-You can also use the nixos webservice:
-
-* [nixpkgs search](https://search.nixos.org/packages)
-
-
-#### nix shell for scientific work
-
-you can test out a simple
-`nix-shell` that will include a lot of data science tools:
+At the root of the terminal path, there is a `default.nix` file, i.e.
+`/src/analytics/default.nix`, you can now type in:
 
 ```bash
 nix-shell
+```
+
+It will download all the packages declared in this scientific environment:
+
+```nix
+  buildInputs = with pkgs; [
+    # basic python dependencies
+    python38
+    python38Packages.numpy
+    python38Packages.scikitlearn
+    python38Packages.scipy
+    python38Packages.matplotlib
+    # a couple of deep learning libraries
+    python38Packages.tensorflow
+    python38Packages.Keras
+    python38Packages.pytorch
+    openjdk11
+    bloop
+    # Lets assume we also want to use R, maybe to compare sklearn and R models
+    R
+    rPackages.mlr
+    rPackages.data_table # "_" replaces "."
+    rPackages.ggplot2
+  ]
+```
+
+Remember, this will only be needed once, the packages will be saved into the `docker volume` .
+
+After the download, open a python shell, and try it out:
+
+```bash
 python
 ```
 
-Type in:
+Then type in:
 
 ```python
 >>> import numpy as np
@@ -91,7 +102,27 @@ array([[ 0,  1,  2,  3,  4],
 There is a `wip` in progress `nix-shell` environment for more optimized
 `tensorflow` library.
 
-#### conda and installation of bioinformatic packages
+Feel free to search any scientific package:
+
+* [nxpkgs search](https://search.nixos.org/packages)
+
+and add it to the shell environment, buildInputs list declared above.
+
+### Install packages from nix package manager
+
+You can also manually install a package in the docker container from the nix package manager:
+
+```bash
+nix-env -iA nixpkgs.vim
+```
+
+Search for a package from the command line:
+
+```bash
+nix search vim
+```
+
+### conda and installation of bioinformatic packages
 
 To add `ensembl-vep` a very much used bioinformatics library, using
 conda:
@@ -100,12 +131,25 @@ conda:
 conda config --add channels bioconda
 ```
 
+## Basic ideas
+
+### How it works
+
+There is a `initializeCommand` in `.devcontainer/devcontainer.json`, that creates a
+docker container content, archived as `nix.tar.gz` using the `init.sh` script.
+
+This contains the complete `nix` environment for the `yoda` user. This environment is
+then extracted into the docker container directly.
+
+If rebuilding the container, this archive will not be rebuilt, unless you delete it.
+The same goes for the `docker volume`.
+
 ### nixpgks and conda
 
 `nixpkgs` ([NixOs](https://nixos.org/)) has a plethora of scientific libraries
 available. It distinguishes itself from `conda` by:
 
-* package installations are reprodusible until the end of time (unless things get removed from Internet)
+* package installations are reproducible until the end of time (unless things get removed from Internet)
 * every package is installed in isolation, thus library conflicts between
   versions of a package or library dependencies are never a problem.
 * You can install packages from any channel version of nixpkgs

@@ -23,13 +23,19 @@ ENV HOME="/yoda" TERM="xterm" \
 
 RUN mkdir -p /src /config /data /tools /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
 RUN touch /opt/conda/pkgs/urls.txt
-RUN chown 1000:1000 /opt/conda/pkgs/urls.txt
+RUN chown yoda:100 /opt/conda/pkgs/urls.txt
 # You should be able to run singularity with sudo
 # also the container must be running in privileged mode for this to work
 RUN echo "yoda ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/sudoers
 
 RUN mkdir /.cache
-RUN chown -R 1000:1000 /.cache
+RUN chown -R yoda:100 /.cache
+RUN chown -R yoda:100 /src
+RUN mkdir /.sbt
+RUN chown -R yoda:100 /.sbt
+
+RUN mkdir /.ivy2/
+RUN chown -R yoda:100 /.ivy2
 
 USER yoda
 
@@ -42,6 +48,7 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs && \
   nix-channel --update && \
   nix-collect-garbage -d
+
 
 # RUN nix-env -iA nixpkgs.busybox nixpkgs.singularity
 
