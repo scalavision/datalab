@@ -3,6 +3,9 @@ package bio
 import bio.bed.Bed
 import bio.ZBHOPosition.{StartPos, OpenEndPos}
 
+trait Sizeable[A]:
+  extension (a: A) def size: EventSize
+
 final case class EventSize(value: Int)
 
 enum OffsetStrategy:

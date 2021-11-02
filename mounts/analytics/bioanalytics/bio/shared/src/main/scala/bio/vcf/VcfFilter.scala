@@ -9,11 +9,15 @@ enum VcfProcessor:
 
 enum VcfMerge:
   case Combine(v1: VcfMerge, v2: VcfMerge)
-  case InfoField(key: String, value: String, vcfFilter: VcfFilter)
+  case InfoField(key: String, value: String)
 
 def mergeFunction(vcfMerge: VcfMerge, dataLine: DataLine): DataLine =
   vcfMerge match
-    case VcfMerge.Combine(v1, v2) => ???
+    case VcfMerge.Combine(v1, v2) => 
+      val dl = mergeFunction(v1, dataLine)
+      mergeFunction(v2, dl)
+    case VcfMerge.InfoField(key, value) => ???
+
 
 /*
 def mergeFunction2(vcfMerge: VcfMerge, dataLine: VcfMetaHeader): VcfMeta  = vcfMerge match
@@ -115,6 +119,12 @@ object VcfFilter:
       case IsChr(selected) =>
         if selected.isEmpty then Chr.isChr(dataLine.chrom.value)
         else selected.contains(Chr(dataLine.chrom.value))
+
+      case Size(value) => ???
+      case LessThan(value) => ???
+      case LargerThan(value) => ???
+      case Format(key, value) => ???
+
 
   /** Chromosome * */
   def isChr = IsChr(List.empty)
