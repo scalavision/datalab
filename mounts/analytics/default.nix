@@ -13,7 +13,8 @@ in pkgs.mkShell {
     python38Packages.Keras
     python38Packages.pytorch
     openjdk11
-    bloop
+    # bloop
+    sbt
     # Lets assume we also want to use R, maybe to compare sklearn and R models
     R
     rPackages.mlr
