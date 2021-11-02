@@ -20,5 +20,6 @@
     "**/.metals": true,
     "**/.sbt": true,
     "**/.bloop": true
-  }
+  },
+  "nixEnvSelector.nixFile": "${workspaceRoot}/default.nix"
 }
