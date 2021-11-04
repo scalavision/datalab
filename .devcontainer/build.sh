@@ -3,7 +3,7 @@
 set -euo pipefail
 set -x
 
-VERSION=${1:-2.3.15}
+VERSION=${1:-2.4.0}
 IMAGE_NAME=${2:-nix}
 IMAGE_TAG=${3:-$VERSION}
 

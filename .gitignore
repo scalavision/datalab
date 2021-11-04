@@ -10,8 +10,8 @@
 .bloop
 .bsp
 .metals
+**/metals.sbt
 mounts/src/.singularity
 mounts/src/project/project
 target/
 metals.sbt
-
