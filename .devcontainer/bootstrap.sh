@@ -2,7 +2,7 @@
 
 set -eu
 
-VERSION=${1:-2.3.11}
+VERSION=${1:-2.4}
 BASEURL=https://releases.nixos.org/nix
 SYSTEM=x86_64-linux
 BASENAME=nix-$VERSION

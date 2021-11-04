@@ -20,7 +20,7 @@ in pkgs.mkShell {
   ];
   doCheck = false;
   shellHook = ''
-    export JAVA_HOME=${openjdk11}/lib/openjdk
+    export JAVA_HOME=${pkgs.openjdk11}/lib/openjdk
     export COURSIER_CACHE=/yoda/.cache
   '';
 }
