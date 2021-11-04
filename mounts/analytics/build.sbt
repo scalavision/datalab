@@ -32,7 +32,7 @@ lazy val root = project
     commonSettings: _*
   )
   .enablePlugins(ScalaJSPlugin)
-  .aggregate(bioJVM, bioJS, api)
+  .aggregate(bioJVM, bioJS, api, workflow)
 
 lazy val bio = crossProject(JVMPlatform, JSPlatform)
   .in(file("./bioanalytics/bio"))
@@ -63,3 +63,14 @@ lazy val api = project
     testFrameworks ++= testFrameworkStack
   )
   .dependsOn(bioJVM)
+
+lazy val workflow = project
+  .in(file("./workflow"))
+  .settings(commonSettings: _*)
+  .settings(
+    name := "workflow",
+    description := "Dsl for generating and running simple workflows in Scala",
+    version := "0.1.0",
+    libraryDependencies ++= zioStack ++ lihaoyiStack,
+    testFrameworks ++= testFrameworkStack
+  )
