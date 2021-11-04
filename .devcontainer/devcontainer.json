@@ -56,6 +56,9 @@
 		"--platform",
 		"linux/amd64"
 	],
+	"overrideCommand" : [
+		"nix-shell"
+	],
 	//"workspaceMount": "source=${localWorkspaceFolder}/mounts/src/analytics,target=/src/analytics,type=bind,consistency=cached",
 	"workspaceFolder": "/src/analytics",
 	"settings": {
