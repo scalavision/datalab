@@ -1,6 +1,6 @@
 let pkgs = import <nixpkgs> { };
 in pkgs.mkShell {
-  name = "minimal scala env";
+  name = "minimal_scala_env";
   buildInputs = with pkgs; [
     openjdk17
     sbt

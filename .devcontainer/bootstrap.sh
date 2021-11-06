@@ -9,12 +9,6 @@ BASENAME=nix-$VERSION
 ARCHNAME=$BASENAME-$SYSTEM
 FILENAME=$ARCHNAME.tar.xz
 
-# These variables are used within the Dockercontainer,
-# change with care.
-NIX_USERNAME=yoda
-NIX_USER_UID=1000
-NIX_USER_GID=1000
-
 DEBIAN_FRONTEND=noninteractive apt-get -qq -o=Dpkg::Use-Pty=0 update && \
   apt-get -qq -o=Dpkg::Use-Pty=0 install -y --no-install-recommends \
   apt-utils \
