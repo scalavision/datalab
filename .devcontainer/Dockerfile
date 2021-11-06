@@ -13,8 +13,6 @@ ARG NIX_GROUPNAME=users
 ARG NIX_USER_UID=1000
 ARG NIX_USER_GID=1000
 
-# FROM ubuntu:bionic-20200219
-# FROM scratch
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
@@ -31,7 +29,7 @@ ENV HOME="/yoda" TERM="xterm" \
   LC_ALL=C.UTF-8
 
 # RUN groupadd --gid $NIX_USER_GID $NIX_GROUPNAME \
-#  && useradd --uid $NIX_USER_UID --gid $NIX_USER_GID -m $NIX_USERNAME \
+#  && useradd --uid $NIX_USER_UID --gid $NIX_USER_GID -m $NIX_USERNAME
 # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
 
 # Uncomment this, if you want sudo
@@ -41,6 +39,8 @@ ENV HOME="/yoda" TERM="xterm" \
 
 RUN mkdir -p /src /config /data /tools /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
 RUN touch /opt/conda/pkgs/urls.txt
+RUN ls -halt /etc
+RUN cat /etc/passwd
 RUN chown $NIX_USERNAME:$NIX_USER_GID /opt/conda/pkgs/urls.txt
 
 # You should be able to run singularity with sudo
