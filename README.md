@@ -1,8 +1,8 @@
-# datalab 
+# datalab
 
 ## CONDA + NIX = Data Science and Engineering Platform
 
-* WIP: Under heavy development and unstable
+- WIP: Under heavy development and unstable
 
 Datalab wants to create a simple environment for complex data engineering
 and datascience tasks.
@@ -11,11 +11,11 @@ and datascience tasks.
 
 It contains:
 
-* miniconda: get easy access to the scientific universe of anaconda packages.
-* nix: reproducible builds and deployments, more reliable and faster than conda and almost
-       the same amount of scientific packages.
-* vscode decontainer: built on conda devcontainer for conda.
-* scripts to install bioinformatic tools not in conda or nix
+- miniconda: get easy access to the scientific universe of anaconda packages.
+- nix: reproducible builds and deployments, more reliable and faster than conda and almost
+  the same amount of scientific packages.
+- vscode decontainer: built on conda devcontainer for conda.
+- scripts to install bioinformatic tools not in conda or nix
 
 You install all nix packages inside a docker volume, it means that it contains
 all of your heavy data science tools. You can then maintain those independent of your
@@ -106,7 +106,7 @@ There is a `wip` in progress `nix-shell` environment for more optimized
 
 Feel free to search any scientific package:
 
-* [nxpkgs search](https://search.nixos.org/packages)
+- [nxpkgs search](https://search.nixos.org/packages)
 
 and add it to the shell environment, buildInputs list declared above.
 
@@ -151,11 +151,11 @@ The same goes for the `docker volume`.
 `nixpkgs` ([NixOs](https://nixos.org/)) has a plethora of scientific libraries
 available. It distinguishes itself from `conda` by:
 
-* package installations are reproducible until the end of time (unless things get removed from Internet)
-* every package is installed in isolation, thus library conflicts between
+- package installations are reproducible until the end of time (unless things get removed from Internet)
+- every package is installed in isolation, thus library conflicts between
   versions of a package or library dependencies are never a problem.
-* You can install packages from any channel version of nixpkgs
-* most of the times the resolution and installation is much faster than for conda.
+- You can install packages from any channel version of nixpkgs
+- most of the times the resolution and installation is much faster than for conda.
 
 `conda` however still has more science packages available, so therefor this `devcontainer`
 is based upon `vscode`'s `miniconda` container as well.
@@ -181,9 +181,35 @@ docker container.
 You could even maintain your docker container's packages from a secondary
 container.
 
+### resources
+
+#### vscode
+
+- [main docs](https://code.visualstudio.com/docs/remote/containers)
+- [devcontainer.json](https://code.visualstudio.com/docs/remote/devcontainerjson-reference#_variables-in-devcontainerjson)
+- [non root user](https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user)
+
+### troubleshooting
+
+#### /bin/sh or /bin/bash not working
+
+If you have upgraded nix outside the running container, your `docker volume nix`
+will have a different version of `nix` than what is provided by the operating system
+running in the container.
+
+You can try mount the volume running another container `with the same nix version` as
+inside the docker volume, then upgrade `nix` as follows:
+
+```bash
+nix nix-upgrade
+```
+
+In theory when you start devcontainer again, and the `nix` version align with the version
+in the volume, this should work. This has not been tested.
+
 ### TODO
 
-* add all `nix-channels` available to support older versions of
+- add all `nix-channels` available to support older versions of
   packages.
 
 ## credits
@@ -192,9 +218,8 @@ container.
 adapted to change from `/bin/sh` to `/bin/bash` when creating the
 docker environment for standalone / single-user `nix`:
 
-* [nix in docker, best of both worlds](https://datakurre.pandala.org/2015/11/nix-in-docker-best-of-both-worlds.html/)
+- [nix in docker, best of both worlds](https://datakurre.pandala.org/2015/11/nix-in-docker-best-of-both-worlds.html/)
 
 `nix-shell` dev environment is heavily borrowed from:
 
-* [Building a reprodusible data science environment with Nix](https://josephsdavid.github.io/nix.html)
-
+- [Building a reprodusible data science environment with Nix](https://josephsdavid.github.io/nix.html)

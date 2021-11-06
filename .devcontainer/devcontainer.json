@@ -2,18 +2,21 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.194.3/containers/ubuntu
 {
 	"name": "Datalab",
+	"containerEnv": {
+		"COURSIER_CACHE": "/.cache"
+	},
 	"build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
 		"args": {
-			"VARIANT": "focal"
+			"VARIANT": "focal",
 		}
 	},
 	// Set *default* container specific settings.json values on container create.
 	// There is an alternative build script for alpine, you will need to change Dockerfile
 	// in order to use it.
 	// TODO: Create a different docker file for alpline version.
-	"initializeCommand": "${localWorkspaceFolder}/.devcontainer/build_from_microsoft_miniconda.sh",
+	"initializeCommand": "${localWorkspaceFolder}/.devcontainer/build_from_microsoft_miniconda.sh && . ${localWorkspaceFolder}/.devcontainer/build_env.sh",
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"bbenoist.Nix",
@@ -33,16 +36,13 @@
 		"scalameta.metals",
 		"connovalkering.vscode-singularity"
 	],
-	"containerEnv": {
-		"COURSIER_CACHE": "/.cache"
-	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"updateRemoteUserUID": false,
-	"terminal.integrated.defaultProfile.linux": "bash",
+	"terminal.integrated.defaultProfile.linux": "/bin/bash",
 	"mounts": [
 		"source=nix,target=/nix,type=volume",
 		"source=${localWorkspaceFolder}/mounts/data,target=/src/analytics/data,type=bind",
@@ -56,9 +56,9 @@
 		"--platform",
 		"linux/amd64"
 	],
-	"overrideCommand" : [
-		"nix-shell"
-	],
+	// "overrideCommand" : [
+	// 	"nix-shell"
+	// ],
 	//"workspaceMount": "source=${localWorkspaceFolder}/mounts/src/analytics,target=/src/analytics,type=bind,consistency=cached",
 	"workspaceFolder": "/src/analytics",
 	"settings": {
