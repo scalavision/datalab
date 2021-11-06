@@ -24,6 +24,7 @@ ENV HOME="/yoda" TERM="xterm" \
   SSL_CERT_FILE="/usr/local/etc/ssl/certs/ca-bundle.crt" \
   SYSTEM_CERTIFICATE_PATH="/usr/local/etc/ssl/certs/ca-bundle.crt" \
   NIX_PATH="nixpkgs=/yoda/.nix-defexpr/channels/nixpkgs" \
+  XDG_DATA_DIRS="/yoda/.nix-profile/share/bash-completion/completions" \
   LANGUAGE=C.UTF-8 \
   LANG=C.UTF-8 \
   LC_ALL=C.UTF-8
@@ -39,8 +40,6 @@ ENV HOME="/yoda" TERM="xterm" \
 
 RUN mkdir -p /src /config /data /tools /nixpkgs /bio/ref /bio/genepanels /bio/transcripts /opt/conda/pkgs/
 RUN touch /opt/conda/pkgs/urls.txt
-RUN ls -halt /etc
-RUN cat /etc/passwd
 RUN chown $NIX_USERNAME:$NIX_USER_GID /opt/conda/pkgs/urls.txt
 
 # You should be able to run singularity with sudo
@@ -49,8 +48,11 @@ RUN echo "$NIX_USERNAME ALL=(ALL) NOPASSWD:/usr/local/bin/singularity" >> /etc/s
 
 # caching folders used by the scala tools and home
 RUN mkdir -p /.cache /.sbt /.ivy2 /$NIX_USERNAME
-RUN chown -R $NIX_USERNAME:$NIX_USER_GID /.cache /src /.sbt /.ivy2
 
+# chown -R does not work very well in Docker, this should make it faster,
+# but does not seem to work properly
+# COPY --chown=$USER_ID:$GROUP_ID /.cache /.cache
+RUN chown -R $NIX_USERNAME:$NIX_USER_GID /.cache /src /.sbt /.ivy2
 
 USER $NIX_USERNAME
 
