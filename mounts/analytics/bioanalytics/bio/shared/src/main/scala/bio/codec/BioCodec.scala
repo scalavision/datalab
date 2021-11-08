@@ -4,7 +4,7 @@ import scala.deriving.*
 import scala.compiletime.{erasedValue, summonInline}
 
 import bio.bed.*
-import bio.vcf.*
+import bio.vcf.parser.*
 
 import zio.Chunk
 import bio.*
@@ -132,8 +132,8 @@ object BioCodec:
     f => toColonStr(f.values)
   )
 
-  given genotypeCodec: BioCodec[bio.vcf.Genotype] = to(
-    s => bio.vcf.Genotype.Missing,
+  given genotypeCodec: BioCodec[bio.vcf.model.Genotype] = to(
+    s => bio.vcf.model.Genotype.Missing,
     g => ""
   )
 

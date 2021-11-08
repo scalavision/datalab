@@ -1,4 +1,4 @@
-package bio.vcf
+package bio.vcf.parser
 
 enum VariantIdType:
   // Submitted SNP ID assigned by dbSNP or EVA.

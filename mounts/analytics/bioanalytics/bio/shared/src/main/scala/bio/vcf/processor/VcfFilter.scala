@@ -1,7 +1,8 @@
-package bio.vcf
+package bio.vcf.processor
 
 import bio.*
-
+import bio.vcf.parser.*
+import bio.ToStartPos.{given, _}
 /*
 enum VcfProcessor:
   case Delete(row: String)
@@ -13,11 +14,10 @@ enum VcfMerge:
 
 def mergeFunction(vcfMerge: VcfMerge, dataLine: DataLine): DataLine =
   vcfMerge match
-    case VcfMerge.Combine(v1, v2) => 
+    case VcfMerge.Combine(v1, v2) =>
       val dl = mergeFunction(v1, dataLine)
       mergeFunction(v2, dl)
     case VcfMerge.InfoField(key, value) => ???
-
 
 /*
 def mergeFunction2(vcfMerge: VcfMerge, dataLine: VcfMetaHeader): VcfMeta  = vcfMerge match
@@ -120,11 +120,10 @@ object VcfFilter:
         if selected.isEmpty then Chr.isChr(dataLine.chrom.value)
         else selected.contains(Chr(dataLine.chrom.value))
 
-      case Size(value) => ???
-      case LessThan(value) => ???
-      case LargerThan(value) => ???
+      case Size(value)        => ???
+      case LessThan(value)    => ???
+      case LargerThan(value)  => ???
       case Format(key, value) => ???
-
 
   /** Chromosome * */
   def isChr = IsChr(List.empty)

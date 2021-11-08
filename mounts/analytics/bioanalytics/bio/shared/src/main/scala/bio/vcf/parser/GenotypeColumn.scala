@@ -1,4 +1,6 @@
-package bio.vcf
+package bio.vcf.parser
+
+import bio.vcf.model.Genotype
 
 final case class GenotypeColumn(
     genotype: Genotype,

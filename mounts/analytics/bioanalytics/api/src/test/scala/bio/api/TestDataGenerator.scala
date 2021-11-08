@@ -2,7 +2,8 @@ package bio.api
 
 import zio.*
 import scala.util.Random
-import bio.vcf.{DataLine, VcfFilter}
+import bio.vcf.parser.DataLine
+import bio.vcf.processor.VcfFilter
 import scala.annotation.tailrec
 import bio.Chr
 
@@ -34,7 +35,8 @@ object TestDataGenerator:
           selected :+ dataLines(index)
         )
 
-    lazy val dataLinesByChr: Map[bio.vcf.VcfColumn.Chrom, Chunk[DataLine]] =
+    lazy val dataLinesByChr
+        : Map[bio.vcf.parser.VcfColumn.Chrom, Chunk[DataLine]] =
       data
         .map(vcf.parseDataLine)
         .filter(line => VcfFilter.isChr.run(line))

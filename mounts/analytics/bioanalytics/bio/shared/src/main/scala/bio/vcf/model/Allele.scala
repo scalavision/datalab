@@ -1,6 +1,6 @@
-package bio.vcf
+package bio.vcf.model
 
-import VcfColumn.*
+import bio.vcf.parser.VcfColumn.*
 
 enum SvType:
   case Del

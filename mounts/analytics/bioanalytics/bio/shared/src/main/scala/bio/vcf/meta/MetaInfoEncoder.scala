@@ -1,5 +1,7 @@
 package bio.vcf
 
+import bio.codec.auto.*
+
 trait MIE[A]:
   def encode(a: A): String
 
@@ -20,16 +22,21 @@ object MIE:
       def encode(a: A): String =
         // val label = labelFromMirror[m.MirroredType] - not needed
         // val elemLabels = getElemLabels[m.MirroredElemLabels] - not needed
-        val elemInstances = auto.getTypeclassInstances[MIE, m.MirroredElemTypes] // same as for the case class
-        val elemOrdinal = m.ordinal(a) // Checks the ordinal of the type, e.g. 0 for User or 1 for AnonymousVisitor
-    
+        val elemInstances =
+          getTypeclassInstances[
+            MIE,
+            m.MirroredElemTypes
+          ] // same as for the case class
+        val elemOrdinal = m.ordinal(
+          a
+        ) // Checks the ordinal of the type, e.g. 0 for User or 1 for AnonymousVisitor
+
         // just return the result of prettyString from the right element instance
         elemInstances(elemOrdinal).encode(a)
     }
-  
+
   inline def mieProduct[A](using m: Mirror.ProductOf[A]): MIE[A] =
-    import auto.*
-    new MIE[A]{
+    new MIE[A] {
       def encode(a: A): String =
         val label = labelFromMirror[m.MirroredType]
         val elemLabels = getElemLabels[m.MirroredElemLabels]
@@ -40,15 +47,12 @@ object MIE:
             s"${label}=${instance.encode(elem)}"
         }
 
-        if(elemLabels.isEmpty) then
-          label
-        else
-          s"$label(${elemString.mkString(", ")})"
+        if (elemLabels.isEmpty) then label
+        else s"$label(${elemString.mkString(", ")})"
     }
 
   inline given derived[A](using m: Mirror.Of[A]): MIE[A] =
     inline m match
       //case c: doc.shapeit.Token.TCommand => to(_ => "tcommand")
-      case s: Mirror.SumOf[A] => mieTrait(using s)
+      case s: Mirror.SumOf[A]     => mieTrait(using s)
       case p: Mirror.ProductOf[A] => mieProduct(using p)
-  

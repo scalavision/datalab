@@ -3,12 +3,13 @@ package bio.api
 import zio.*
 import zio.stream.*
 import bio.codec.BioCodec
-import bio.vcf.{DataLine, VcfFilter}
+import bio.vcf.parser.DataLine
+import bio.vcf.processor.VcfFilter
 
 object vcf:
 
   val dataLineParser = summon[BioCodec[DataLine]]
-    
+
   val rt = zio.Runtime.default
 
   val isMeta: String => Boolean = _.startsWith("##")

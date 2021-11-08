@@ -1,6 +1,6 @@
 package bio
 
-import bio.vcf.DataLine
+import bio.vcf.parser.DataLine
 import bio.codec.BioCodec
 import bio.ZBHOPosition.{StartPos, OpenEndPos}
 

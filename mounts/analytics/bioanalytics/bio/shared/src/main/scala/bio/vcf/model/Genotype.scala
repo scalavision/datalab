@@ -1,4 +1,4 @@
-package bio.vcf
+package bio.vcf.model
 
 import bio.codec.BioCodec
 

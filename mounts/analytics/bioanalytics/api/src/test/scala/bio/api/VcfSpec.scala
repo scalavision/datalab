@@ -5,7 +5,7 @@ import zio.test.Assertion.*
 import zio.stream.*
 import bio.api.vcf
 import bio.Chr
-import bio.vcf.VcfFilter
+import bio.vcf.processor.VcfFilter
 import bio.ZBHOPosition
 
 object VcfSpec:

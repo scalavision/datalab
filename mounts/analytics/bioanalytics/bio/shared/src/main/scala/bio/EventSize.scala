@@ -1,7 +1,7 @@
 package bio
 
 import bio.bed.Bed
-import bio.vcf.DataLine
+import bio.vcf.parser.DataLine
 
 final case class EventSize(value: Int)
 

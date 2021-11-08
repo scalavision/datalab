@@ -1,5 +1,6 @@
-package bio.vcf
+package bio.vcf.parser
 
+import bio.vcf.model.Allele
 import VcfColumn.*
 import zio.Chunk
 import bio.codec.BioCodec

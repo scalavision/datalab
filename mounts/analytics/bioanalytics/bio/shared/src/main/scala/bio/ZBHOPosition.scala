@@ -1,8 +1,11 @@
 package bio
 
-import bio.vcf.DataLine
+import bio.vcf.parser.DataLine
 import bio.bed.Bed
 import scala.math.Ordering
+
+trait ToZBHOPosition[A]:
+  def toPos(a: A): ZBHOPosition
 
 /** 0-based, half open position
   *
@@ -49,6 +52,7 @@ object ZBHOPosition:
 
   def openEndPos(chr: Chr, pos: Int): ZBHOPosition =
     OpenEndPos(chr, End(pos))
+
   given Ordering[StartPos] with
     override def compare(pos1: StartPos, pos2: StartPos): Int =
       ZBHOPosition.comparePos(

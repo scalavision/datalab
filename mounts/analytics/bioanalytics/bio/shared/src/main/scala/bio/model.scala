@@ -1,7 +1,7 @@
 package bio
 
 import bio.*
-import bio.vcf.DataLine
+import bio.vcf.parser.DataLine
 import bio.bed.Bed
 
 import scala.math.Ordering
