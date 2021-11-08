@@ -40,6 +40,7 @@ enum ZBHOPosition:
 
   def ==(p2: ZBHOPosition): Boolean =
     Ordering[ZBHOPosition].eq(p2)
+
 object ZBHOPosition:
   import Chr.*
 

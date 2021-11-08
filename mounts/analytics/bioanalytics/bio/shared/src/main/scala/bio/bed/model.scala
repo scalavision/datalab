@@ -101,6 +101,10 @@ enum Bed derives BioCodec:
   def start: Start
   def end: End
 
+object Bed:
+  def apply(value: String, start: Int, end: Int): Bed =
+    Bed.Bed3(Chr(value), Start(start), End(end))
+
 final case class Name(value: String) extends AnyVal
 final case class BedGraph[A](
     chrom: Chr,

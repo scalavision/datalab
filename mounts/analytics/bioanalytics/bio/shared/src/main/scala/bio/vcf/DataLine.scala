@@ -15,7 +15,8 @@ final case class DataLine(
     info: Info,
     format: Format,
     genotypes: Genotype
-) derives BioCodec
+) derives BioCodec:
+  def allele: Allele = Allele(ref, alt)
 
 object DataLine:
   given Conversion[Chrom, bio.Chr] with
