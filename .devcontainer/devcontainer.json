@@ -46,6 +46,7 @@
 	"mounts": [
 		"source=nix,target=/nix,type=volume",
 		"source=${localWorkspaceFolder}/mounts/data,target=/src/analytics/data,type=bind",
+		"source=${localWorkspaceFolder}/mounts/machine_learning,target=/src/analytics/machine_learning,type=bind",
 		"source=${localWorkspaceFolder}/mounts/config,target=/src/analytics/config,type=bind",
 		"source=${localWorkspaceFolder}/mounts/bio,target=/src/analytics/bio,type=bind",
 		"source=${localWorkspaceFolder}/mounts/analytics,target=/src/analytics,type=bind",

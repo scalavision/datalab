@@ -21,5 +21,6 @@
     "**/.sbt": true,
     "**/.bloop": true
   },
-  "nixEnvSelector.nixFile": "${workspaceRoot}/default.nix"
+  "nixEnvSelector.nixFile": "${workspaceRoot}/default.nix",
+  "python.formatting.provider": "black"
 }
