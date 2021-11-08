@@ -40,7 +40,7 @@ in stdenv.mkDerivation rec {
 
   # Training the model
   buildPhase = ''
-    python $src/train.py
+    python $src/training.py
   '';
 
   installPhase = ''

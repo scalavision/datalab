@@ -2,7 +2,8 @@ with import <nixpkgs> { };
 
 rec {
   # Model using default values (cuda true, 10 epochs)
-  model = pkgs.callPackage ./model.nix { };
+  # This will download the entire cuda stack
+  # model = pkgs.callPackage ./model.nix { };
 
   #/* Model using tensorflow backend with 1 epoch
   #*/

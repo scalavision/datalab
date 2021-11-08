@@ -42,7 +42,10 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   nix-channel --update && \
   nix-collect-garbage -d
 
-RUN nix-env -iA nixpkgs.nixfmt
+RUN nix-env -iA nixpkgs.nixfmt nixpkgs.nix-prefetch-git \
+  nixpkgs.nix-prefetch nixpkgs.nix-prefetch-github \
+  nixpkgs.nix-prefetch-scripts
+
 # RUN nix-env -iA nixpkgs.busybox nixpkgs.singularity
 
 # There is a bug in Docker that makes recursive ownership of folders extremely slow in some cases
