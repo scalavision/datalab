@@ -6,7 +6,7 @@ echo "$ARG"
 
 set -euo pipefail
 
-if [  $ARG != "-f" ]; then
+if [[  $ARG != "-f" ]]; then
   echo "CAVEAT! This is a dangerous script, do not run it unless you know what you are doing"
   echo "This script will remove all containers and empty images, including datalab"
   echo "Add -f parameter, if this is what you want"

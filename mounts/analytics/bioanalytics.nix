@@ -7,6 +7,7 @@ in pkgs.mkShell {
     ammonite
     # scala-cli
     bash-completion
+    nodejs
     # Lets assume we also want to use R, maybe to compare sklearn and R models
   ];
   shellHook = ''
