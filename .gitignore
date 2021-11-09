@@ -15,5 +15,6 @@ mounts/src/.singularity
 mounts/src/project/project
 target/
 metals.sbt
-*.h5
 
+*.h5
+result*

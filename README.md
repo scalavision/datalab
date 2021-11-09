@@ -211,8 +211,9 @@ in the volume, this should work. This has not been tested.
 
 ### TODO
 
-- add all `nix-channels` available to support older versions of
+* add all `nix-channels` available to support older versions of
   packages.
+* [add jupyter container support](https://datakurre.pandala.org/2015/11/creating-jupyter-docker-containers-with.html/)
 
 ## credits
 
