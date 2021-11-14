@@ -131,6 +131,8 @@ conda:
 
 ```bash
 conda config --add channels bioconda
+# an example installing vep
+conda install ensembl-vep
 ```
 
 ## Basic ideas
