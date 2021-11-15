@@ -5,6 +5,7 @@ in pkgs.mkShell {
     openjdk17
     sbt
     ammonite
+    # scala-cli
     bash-completion
     # Lets assume we also want to use R, maybe to compare sklearn and R models
   ];

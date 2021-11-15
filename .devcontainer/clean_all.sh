@@ -14,7 +14,7 @@ if [  $ARG != "-f" ]; then
   exit 1
 fi
 
-rm nix.tar.gz
+rm nix.tar.gz || true
 
 # Remove all non running containers
 docker rm $(docker ps -a | grep -v CO | awk '{print $1}') || echo "no docker containers listed"
@@ -23,6 +23,7 @@ docker rm $(docker ps -a | grep -v CO | awk '{print $1}') || echo "no docker con
 docker rmi $(docker images | grep '<none>' | awk '{print $3}') || echo "no dangling docker containers"
 
 docker volume rm nix
+docker volume rm conda
 
 # Remove datalab images
 # docker rmi "vsc-datalab-*"

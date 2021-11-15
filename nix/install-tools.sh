@@ -1,13 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-export NIX_PATH="nixpkgs=/dev/.nix-defexpr/channels/nixpkgs"
+set -euo pipefail
 
-pushd tools
-  nix-env -f "." -iA bwa-mem2
-  nix-env -f "." -iA gatk
+export NIX_PATH="nixpkgs=/yoda/.nix-defexpr/channels/nixpkgs"
+
+HOMEGROWN=(bwa-mem2 gatk nextflow)
+
+pushd pkgs
+for tool in "${HOMEGROWN}"; do
+  nix-env -f "." -iA "$tool"
+done
 popd
 
 while read pkgs
 do
   nix-env -f '<nixpkgs>' -iA "$pkgs"
 done < ./tools-collections/bioinf-defaults.txt
+
+conda config --add channels bioconda
+conda install vep

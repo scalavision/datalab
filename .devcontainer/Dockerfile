@@ -42,9 +42,16 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   nix-channel --update && \
   nix-collect-garbage -d
 
-RUN nix-env -iA nixpkgs.nixfmt nixpkgs.nix-prefetch-git \
+RUN nix-env -iA nixpkgs.nixfmt \
   nixpkgs.nix-prefetch nixpkgs.nix-prefetch-github \
-  nixpkgs.nix-prefetch-scripts
+  nixpkgs.nix-prefetch-scripts \
+    nixpkgs.openjdk17 \
+    nixpkgs.sbt \
+    nixpkgs.ammonite \
+    nixpkgs.scala-cli
+
+# scala-cli is so fresh it hasn't been added to the unstable branch of nixpkgs yet.
+# RUN nix-env -if https://github.com/NixOS/nixpkgs/archive/refs/heads/master.tar.gz -A scala-cli
 
 # RUN nix-env -iA nixpkgs.busybox nixpkgs.singularity
 

@@ -1,27 +1,20 @@
-{ stdenv
-, lib
-, fetchurl
-, jre
-, unzip
-, python3
-, makeWrapper
-, gcc
-}:
+{ stdenv, lib, fetchurl, jre, unzip, python3, makeWrapper, gcc }:
 
 stdenv.mkDerivation rec {
 
-  name = "gatk4";
+  pname = "gatk";
   version = "4.2.2.0";
 
   src = fetchurl {
-    url = "https://github.com/broadinstitute/gatk/releases/download/${version}/gatk-${version}.zip";
+    url =
+      "https://github.com/broadinstitute/gatk/releases/download/${version}/${pname}-${version}.zip";
     sha256 = "sha256:1zcp2kdkc8890nx1d0n199qpiwcxiql5jqanjqvljx0q3m205nfx";
   };
 
   nativeBuildInputs = [ makeWrapper unzip ];
 
   buildInputs = [ jre python3 gcc ];
-  
+
   phases = [ "installPhase" ];
 
   installPhase = ''
@@ -38,7 +31,8 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    description = "Offers a wide variety of tools with a primary focus on DNA variant discovery and genotyping";
+    description =
+      "Offers a wide variety of tools with a primary focus on DNA variant discovery and genotyping";
     longDescription = ''
       The industry standard for identifying SNPs and indels in germline 
       DNA and RNAseq data. Its scope is now expanding to include somatic 
@@ -52,6 +46,6 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ scalavision ];
     platforms = platforms.all;
 
-  }; 
+  };
 
 }

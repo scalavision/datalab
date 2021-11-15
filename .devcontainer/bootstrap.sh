@@ -23,7 +23,11 @@ DEBIAN_FRONTEND=noninteractive tar xf $FILENAME
 # Prepare build directory
 mkdir -p build/etc/nix build/nix/var/nix/profiles \
          build/tmp build/bin build/usr/bin build/var build/"$NIX_USERNAME" \
-         build/opt/conda
+         build/opt/conda \
+         build/opt/conda/.condatmp \
+         build/opt/conda/pkgs
+
+touch build/opt/conda/pkgs/urls.txt
 
 cat > build/etc/passwd << EOF
 root:*:0:0:::

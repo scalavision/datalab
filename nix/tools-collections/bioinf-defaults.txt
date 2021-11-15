@@ -1,5 +1,4 @@
 jdk8
-ncbi_tools
 gnused
 gawk
 gnugrep
@@ -20,7 +19,6 @@ manta
 samtools
 deeptools
 bedtools
-bwa
 truvari
 bcftools
 vcftools
