@@ -2,13 +2,13 @@ package bash
 
 enum CommandList:
   self =>
+  case Command(value: String)
   case Pipe(left: CommandList, right: CommandList)
   case And(left: CommandList, right: CommandList)
   case Or(left: CommandList, right: CommandList)
   case Semi(cl: CommandList)
   case Amper(cl: CommandList)
   case NewLine(cl: CommandList)
-  case Command(value: String)
 
   def |(that: CommandList): CommandList = Pipe(self, that)
   def &&(that: CommandList): CommandList = And(self, that)
