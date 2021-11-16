@@ -191,6 +191,10 @@ container.
 - [devcontainer.json](https://code.visualstudio.com/docs/remote/devcontainerjson-reference#_variables-in-devcontainerjson)
 - [non root user](https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user)
 
+#### d3
+
+- [force layout tutorial](http://bl.ocks.org/sathomas/11550728)
+
 ### troubleshooting
 
 #### /bin/sh or /bin/bash not working
