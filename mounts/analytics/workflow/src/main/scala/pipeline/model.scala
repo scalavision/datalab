@@ -1,10 +1,12 @@
 package pipeline
 
-enum GlobalVariable:
+enum VariableType:
   case Text(value: String)
   case Decimal(value: Float)
   case Integer(value: Int)
   case File(value: String)
+
+case class GlobalVariable(value: VariableType)
 
 /** workflow component is a required top-level component of a WDL script. It
   * contains call statements that invoke task components, as well as
@@ -23,6 +25,40 @@ final case class Workflow(
 object Workflow:
   final case class Input()
   final case class Output()
+
+enum Pipeline:
+  self =>
+  case Execute(task: Task)
+  case Combine(pipeline1: Pipeline, pipeline2: Pipeline)
+
+  def andThen(task: Task): Pipeline =
+    Combine(self, Execute(task))
+
+object Pipeline:
+  def init(task: Task): Pipeline =
+    Pipeline.Execute(task)
+
+  private def runCommand(workspace: os.Path, command: TaskParam.Command): Unit =
+    command.command match
+      case CommandType.ScriptFile(file) => ???
+      case CommandType.Scala(fun)       => ???
+
+  private def runTask(workspace: os.Path, task: Task): Unit = task match
+    case Task(
+          name,
+          input,
+          command,
+          runtime,
+          output,
+          variables,
+          optionVariables
+        ) =>
+
+  def run(workspace: os.Path, pipeline: Pipeline): Unit = pipeline match
+    case Execute(task) => ???
+    case Combine(p1, p2) =>
+      run(workspace, p1)
+      run(workspace, p2)
 
 /** The task component is a top-level component of WDL scripts. It contains all
   * the information necessary to "do something" centering around a command
@@ -64,6 +100,12 @@ final case class Task(
   def optionalVariables(value: Vector[TaskParam.OptionalVariable]): Task = copy(
     optionalVariables = value
   )
+
+  def output(
+      out: TaskParam.Output
+  ): Task = copy(
+    output = Some(out)
+  )
 }
 
 enum RuntimeType:
@@ -76,17 +118,54 @@ enum CommandType:
   case ScriptTemplate(text: String)
   case ScriptFile(path: String)
   case Dsl(value: String)
+  case Scala[A, B](fn: A => B)
+
+enum OutputType:
+  case File(value: String)
+  case OutputStream
+
+enum InputType:
+  case File(value: String)
+  case InputStream
 
 enum TaskParam:
   case Id(value: String)
-  case Input()
-  case Output()
+  case Input(input: InputType)
+  case Output(output: OutputType)
   case Command(command: CommandType)
   case Runtime(runtime: RuntimeType)
   case OptionalVariable(
       value: Option[GlobalVariable],
       default: Option[GlobalVariable]
   )
+
+object scriptFile:
+  import TaskParam.*
+  import CommandType.*
+  def apply(value: os.Path): TaskParam.Command =
+    Command(
+      ScriptFile(value.toString())
+    )
+
+object fileOutput:
+  import OutputType.*
+  import TaskParam.*
+  def apply(value: os.Path): TaskParam.Output =
+    Output(
+      File(value.toString())
+    )
+
+object fileInput:
+  import InputType.*
+  import TaskParam.*
+  def apply(value: os.Path): TaskParam.Input =
+    Input(
+      File(value.toString())
+    )
+
+object scalaCmd:
+  def apply[A, B](fn: A => B): TaskParam.Command =
+    TaskParam.Command(CommandType.Scala(fn))
 
 object Task:
 
@@ -100,7 +179,7 @@ object Task:
     )
 
 enum CallArg:
-  case Output(task: TaskParam.Output)
+  case Local(task: GlobalVariable)
   case Global(value: GlobalVariable)
 
 final case class Call(

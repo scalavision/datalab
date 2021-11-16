@@ -74,3 +74,4 @@ lazy val workflow = project
     libraryDependencies ++= zioStack ++ lihaoyiStack,
     testFrameworks ++= testFrameworkStack
   )
+  .dependsOn(api)

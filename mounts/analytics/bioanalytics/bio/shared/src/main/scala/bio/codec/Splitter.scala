@@ -9,6 +9,7 @@ enum SplitChar:
   case Tab()
   case Semi()
   case Comma()
+  case Colon()
   case Custom(c: Char)
 
 trait Splitter[A]:
@@ -26,6 +27,7 @@ object Splitter:
   given Splitter[NewLine] = to('\n')
   given Splitter[Tab] = to('\t')
   given Splitter[Semi] = to(';')
+  given Splitter[Colon] = to(':')
   given Splitter[Comma] = to(',')
   given Splitter[WhiteSpace] = to(' ')
   given Conversion[Custom, Splitter[Custom]] = c =>
