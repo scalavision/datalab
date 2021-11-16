@@ -42,6 +42,7 @@ RUN /nix/store/*-nix-*/bin/nix-store --init && \
   nix-channel --update && \
   nix-collect-garbage -d
 
+#nixpkgs.nix-prefetch-git \
 RUN nix-env -iA nixpkgs.nixfmt \
   nixpkgs.nix-prefetch nixpkgs.nix-prefetch-github \
   nixpkgs.nix-prefetch-scripts \
